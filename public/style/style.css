@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Pathway+Extreme:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+/*
+pour appeller les fonts si besoin : 
+font-family: 'Lato', sans-serif; TEXT
+font-family: 'Pathway Extreme', sans-serif; H1 a H6 */
+
+:root {
+    --white: #FBFAF8;
+    --black: #000000;
+    --passive: #92C352;
+    --hover: #CBCBCB;
+    --text-exception: #FFFFFF;
+}
+
+
+nav > a {
+    font-size: large;
+    text-decoration: none;
+    font-style: normal;
+    font-family: 'Lato', sans-serif;
+}
+
+footer {
+    margin-bottom: 0px;
+    margin-top: 50px;
+    padding: 5px 0px;
+    font-size: 1.25rem;
+    color: var(--white);
+    background-color: #001624;
+}
+
+#bg-argument{
+
+    width: 107px !important;
+    height: 75px !important;
+}
+
+
