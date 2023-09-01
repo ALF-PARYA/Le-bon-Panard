@@ -5,9 +5,17 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn (name : "user_type", type :"string")]
+#[ORM\DiscriminatorMap(['user' => User::class, 'admin' => Admin::class])]
+
+
+
 class User
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,6 +32,9 @@ class User
 
     #[ORM\Column]
     private ?int $id_Location = null;
+
+    #[ORM\Column]
+    private ?bool $isAdmin = null;
 
     public function getId(): ?int
     {
@@ -74,6 +85,18 @@ class User
     public function setIdLocation(int $id_Location): static
     {
         $this->id_Location = $id_Location;
+
+        return $this;
+    }
+
+    public function isIsAdmin(): ?bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): static
+    {
+        $this->isAdmin = $isAdmin;
 
         return $this;
     }
