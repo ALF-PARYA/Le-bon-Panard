@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
@@ -13,36 +15,29 @@ class Location
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_Location = null;
-
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $ville = null;
+    #[ORM\Column(length: 255)]
+    private ?string $town = null;
 
     #[ORM\Column]
-    private ?int $departement_id = null;
+    private ?int $departement_number = null;
 
-    #[ORM\Column]
-    private ?int $code_postal = null;
+    #[ORM\Column(length: 255)]
+    private ?string $postal_code = null;
+
+    #[ORM\OneToMany(mappedBy: 'location', targetEntity: User::class)]
+    private Collection $userLocation;
+
+    public function __construct()
+    {
+        $this->userLocation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdLocation(): ?int
-    {
-        return $this->id_Location;
-    }
-
-    public function setIdLocation(int $id_Location): static
-    {
-        $this->id_Location = $id_Location;
-
-        return $this;
     }
 
     public function getAdresse(): ?string
@@ -57,38 +52,68 @@ class Location
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getTown(): ?string
     {
-        return $this->ville;
+        return $this->town;
     }
 
-    public function setVille(string $ville): static
+    public function setTown(string $town): static
     {
-        $this->ville = $ville;
+        $this->town = $town;
 
         return $this;
     }
 
-    public function getDepartementId(): ?int
+    public function getDepartementNumber(): ?int
     {
-        return $this->departement_id;
+        return $this->departement_number;
     }
 
-    public function setDepartementId(int $departement_id): static
+    public function setDepartementNumber(int $departement_number): static
     {
-        $this->departement_id = $departement_id;
+        $this->departement_number = $departement_number;
 
         return $this;
     }
 
-    public function getCodePostal(): ?int
+    public function getPostalCode(): ?string
     {
-        return $this->code_postal;
+        return $this->postal_code;
     }
 
-    public function setCodePostal(int $code_postal): static
+    public function setPostalCode(string $postal_code): static
     {
-        $this->code_postal = $code_postal;
+        $this->postal_code = $postal_code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUserLocation(): Collection
+    {
+        return $this->userLocation;
+    }
+
+    public function addUserLocation(User $userLocation): static
+    {
+        if (!$this->userLocation->contains($userLocation)) {
+            $this->userLocation->add($userLocation);
+            $userLocation->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLocation(User $userLocation): static
+    {
+        if ($this->userLocation->removeElement($userLocation)) {
+            // set the owning side to null (unless already changed)
+            if ($userLocation->getLocation() === $this) {
+                $userLocation->setLocation(null);
+            }
+        }
 
         return $this;
     }

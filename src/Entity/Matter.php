@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MatterRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MatterRepository::class)]
@@ -13,27 +15,20 @@ class Matter
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_Matter = null;
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\ManyToMany(targetEntity: Socks::class, inversedBy: 'matters')]
+    private Collection $socksMater;
+
+    public function __construct()
+    {
+        $this->socksMater = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdMatter(): ?int
-    {
-        return $this->id_Matter;
-    }
-
-    public function setIdMatter(int $id_Matter): static
-    {
-        $this->id_Matter = $id_Matter;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -44,6 +39,30 @@ class Matter
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Socks>
+     */
+    public function getSocksMater(): Collection
+    {
+        return $this->socksMater;
+    }
+
+    public function addSocksMater(Socks $socksMater): static
+    {
+        if (!$this->socksMater->contains($socksMater)) {
+            $this->socksMater->add($socksMater);
+        }
+
+        return $this;
+    }
+
+    public function removeSocksMater(Socks $socksMater): static
+    {
+        $this->socksMater->removeElement($socksMater);
 
         return $this;
     }

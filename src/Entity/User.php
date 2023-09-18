@@ -3,100 +3,152 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\InheritanceType("JOINED")]
-#[ORM\DiscriminatorColumn (name : "user_type", type :"string")]
-#[ORM\DiscriminatorMap(['user' => User::class, 'admin' => Admin::class])]
-
-
-
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_users = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $mail = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column]
-    private ?int $id_Location = null;
+    private array $roles = [];
 
+    /**
+     * @var string The hashed password
+     */
     #[ORM\Column]
-    private ?bool $isAdmin = null;
+    private ?string $password = null;
+
+    #[ORM\ManyToOne(inversedBy: 'userLocation')]
+    private ?Location $location = null;
+
+    #[ORM\OneToMany(mappedBy: 'userSocks', targetEntity: Socks::class)]
+    private Collection $socks;
+
+    public function __construct()
+    {
+        $this->socks = new ArrayCollection();
+
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdUsers(): ?int
+    public function getEmail(): ?string
     {
-        return $this->id_users;
+        return $this->email;
     }
 
-    public function setIdUsers(int $id_users): static
+    public function setEmail(string $email): static
     {
-        $this->id_users = $id_users;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getName(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->name;
+        return (string) $this->email;
     }
 
-    public function setName(string $name): static
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        $this->name = $name;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getMail(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->mail;
+        return $this->password;
     }
 
-    public function setMail(string $mail): static
+    public function setPassword(string $password): static
     {
-        $this->mail = $mail;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getIdLocation(): ?int
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
     {
-        return $this->id_Location;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function setIdLocation(int $id_Location): static
+    public function getLocation(): ?Location
     {
-        $this->id_Location = $id_Location;
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
 
         return $this;
     }
 
-    public function isIsAdmin(): ?bool
+    /**
+     * @return Collection<int, Socks>
+     */
+    public function getSocks(): Collection
     {
-        return $this->isAdmin;
+        return $this->socks;
     }
 
-    public function setIsAdmin(bool $isAdmin): static
+    public function addSock(Socks $sock): static
     {
-        $this->isAdmin = $isAdmin;
+        if (!$this->socks->contains($sock)) {
+            $this->socks->add($sock);
+            $sock->setUserSocks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSock(Socks $sock): static
+    {
+        if ($this->socks->removeElement($sock)) {
+            // set the owning side to null (unless already changed)
+            if ($sock->getUserSocks() === $this) {
+                $sock->setUserSocks(null);
+            }
+        }
 
         return $this;
     }

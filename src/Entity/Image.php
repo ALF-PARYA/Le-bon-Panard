@@ -13,27 +13,15 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_Image = null;
-
     #[ORM\Column(length: 255)]
     private ?string $path = null;
+
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    private ?Socks $socksImage = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdImage(): ?int
-    {
-        return $this->id_Image;
-    }
-
-    public function setIdImage(int $id_Image): static
-    {
-        $this->id_Image = $id_Image;
-
-        return $this;
     }
 
     public function getPath(): ?string
@@ -44,6 +32,18 @@ class Image
     public function setPath(string $path): static
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getSocksImage(): ?Socks
+    {
+        return $this->socksImage;
+    }
+
+    public function setSocksImage(?Socks $socksImage): static
+    {
+        $this->socksImage = $socksImage;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SizeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SizeRepository::class)]
@@ -13,37 +15,57 @@ class Size
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_size = null;
+    #[ORM\Column(length: 50)]
+    private ?string $name = null;
 
-    #[ORM\Column]
-    private ?float $number = null;
+    #[ORM\ManyToMany(targetEntity: Socks::class, mappedBy: 'socksSize')]
+    private Collection $socks;
+
+    public function __construct()
+    {
+        $this->socks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdSize(): ?int
+    public function getName(): ?string
     {
-        return $this->id_size;
+        return $this->name;
     }
 
-    public function setIdSize(int $id_size): static
+    public function setName(string $name): static
     {
-        $this->id_size = $id_size;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getNumber(): ?float
+    /**
+     * @return Collection<int, Socks>
+     */
+    public function getSocks(): Collection
     {
-        return $this->number;
+        return $this->socks;
     }
 
-    public function setNumber(float $number): static
+    public function addSock(Socks $sock): static
     {
-        $this->number = $number;
+        if (!$this->socks->contains($sock)) {
+            $this->socks->add($sock);
+            $sock->addSocksSize($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSock(Socks $sock): static
+    {
+        if ($this->socks->removeElement($sock)) {
+            $sock->removeSocksSize($this);
+        }
 
         return $this;
     }
