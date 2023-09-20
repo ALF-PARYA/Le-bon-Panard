@@ -15,15 +15,29 @@ class SocksFixtures extends Fixture implements DependentFixtureInterface
                 'description' => 'Chaussettes en coton, taille M',
                 'name' => 'Chaussettes 1',
                 'price' => '9.99',
-                'size_id' => 1, // Remplacez par l'ID de la taille souhaitée
-                'matter_id' => 1, // Remplacez par l'ID de la matière souhaitée
+                'size_id' => 1, 
+                'matter_id' => 1, 
             ],
             [
                 'description' => 'Chaussettes en laine, taille L',
                 'name' => 'Chaussettes 2',
                 'price' => '14.99',
-                'size_id' => 2, // Remplacez par l'ID de la taille souhaitée
-                'matter_id' => 2, // Remplacez par l'ID de la matière souhaitée
+                'size_id' => 2, 
+                'matter_id' => 2, 
+            ],
+            [
+                'description' => 'Chaussettes en nylon, taille XL',
+                'name' => 'Chaussettes 3',
+                'price' => '16.99',
+                'size_id' => 3, 
+                'matter_id' => 3, 
+            ],
+            [
+                'description' => 'Chaussettes en laine, taille s',
+                'name' => 'Chaussettes 4',
+                'price' => '11.99',
+                'size_id' => 2, 
+                'matter_id' => 2,
             ],
             // Ajoutez autant de paires de chaussettes que nécessaire
         ];
