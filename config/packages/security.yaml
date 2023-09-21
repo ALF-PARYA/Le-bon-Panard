@@ -27,8 +27,8 @@ security:
                 lifetime: 604800
                 path: /
                 always_remember_me: true
- 
-            # activate different ways to authenticate
+            
+            
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
