@@ -34,7 +34,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
             [
                 'email' => 'user2@example.com',
                 'password' => '5678',
-                'roles' => ['ROLE_USER'],
+                'roles' => ['ROLE_ADMIN'],
             ],
             // Ajoutez autant d'utilisateurs que nécessaire
         ];
