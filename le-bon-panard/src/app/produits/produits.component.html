@@ -1,0 +1,28 @@
+<h1> Fuck YOU MACARON</h1>
+
+partie test
+<p *ngFor="let produit of produits">
+
+    {{produit.id}}
+    {{produit.name}}
+    {{produit.description}}
+    {{produit.price}}
+    {{produit.socksize}}
+    {{produit.matters}}
+    {{produit.images}}
+
+</p>
+
+<div class="d-flex gap-4  justify-content-center">
+    <div *ngFor="let produit of produits" class="card" style="width: 18rem;">
+        <img src="{{produit.images}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{produit.name}}</h5>
+            <p class="card-text"> taille produit : {{produit.socksize}}</p>
+            <p class="card-text">{{produit.description}}</p>
+            <p class="card-text">{{produit.price}} €</p>
+            
+            <a href="#" class="btn btn-primary">Ajouter au panier</a>
+        </div>
+    </div>
+</div>

@@ -2,12 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\LocationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
+// #[ApiResource(
+//     // operations: [
+//     //     new Post(),
+//     //     new Patch(),
+//     //     new Get(),
+//     //     new GetCollection()
+//     // ]
+// )]
+#[ApiResource]
+
 class Location
 {
     #[ORM\Id]

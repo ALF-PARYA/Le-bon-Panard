@@ -2,10 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
+// #[ApiResource(
+//     // operations: [
+//     //     new Post(),
+//     //     new Patch(),
+//     //     new Get(),
+//     //     new GetCollection()
+//     // ]
+// )]
+#[ApiResource]
 class Image
 {
     #[ORM\Id]

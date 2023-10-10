@@ -1,0 +1,28 @@
+.present {
+background-color: #111111;
+color: #FBFAF8;
+padding: 50px;
+
+}
+
+.present-2 {
+    background-color: #303030;
+    color: #FBFAF8;
+    margin-top: 50px;
+
+}
+
+.image img {
+
+    width: 75%;
+
+}
+
+
+
+.rata{
+
+    padding: 50px;
+    color: white;
+    background-color: #303030;
+}
